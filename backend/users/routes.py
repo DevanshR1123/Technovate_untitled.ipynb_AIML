@@ -2,7 +2,7 @@ from flask import request, jsonify  # Import jsonify for returning JSON response
 from backend import app
 import numpy as np
 from backend.users.utils import get_location_info, add_line, add_marker
-from backend.app import supabase
+from backend import supabase
 import openrouteservice as ors
 import requests
 import folium 
