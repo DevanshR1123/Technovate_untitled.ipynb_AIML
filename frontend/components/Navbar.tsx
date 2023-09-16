@@ -40,7 +40,7 @@ const Navbar = () => {
       {user ? (
         <Menu className="relative self-center justify-self-end" as="div">
           <Menu.Button className={twMerge(styles.menuButton)}>
-            <Image src={menuIcon} alt="menu" width={128} height={128} className="h-6 w-6" />
+            <Image src={menuIcon} alt="menu" width={128} height={128} className="h-6 w-6" priority />
           </Menu.Button>
           <Transition as={Fragment} enter="ease-out" enterFrom="opacity-0 scale-0" enterTo="opacity-100 scale-100" leave="ease-in" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-0">
             <Menu.Items className={twMerge(styles.menuItems, "right-0 w-48 origin-top-right")} as="ul">

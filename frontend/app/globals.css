@@ -29,3 +29,7 @@
   background: hsl(var(--foreground));
   border-radius: 0.25rem;
 }
+
+input:is([type="date"], [type="time"], [type="datetime"])::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}

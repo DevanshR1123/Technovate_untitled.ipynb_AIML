@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     sessionStorage.setItem("user", JSON.stringify({ email, password }));
 
-    router.push("/profile");
+    router.push("/dashboard");
   };
 
   const logout = async () => {
@@ -63,6 +63,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const publishTrip = async (routeData: any) => {
+    const { error, data } = await supabase
+      .from("routes")
+      .insert([{ ...routeData, user_id: user?.id }])
+      .select();
+    if (error) toast.error(error.message);
+    else {
+      console.log(data);
+      toast.success("Trip Published");
+      router.push(`/dashboard/trip/${data[0].id}`);
+    }
+  };
+
   useEffect(() => {
     const user = sessionStorage.getItem("user");
     if (user) {
@@ -71,7 +84,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  const value = { user, session, login, logout, signUp, updateProfile };
+  const value = { user, session, login, logout, signUp, updateProfile, publishTrip };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

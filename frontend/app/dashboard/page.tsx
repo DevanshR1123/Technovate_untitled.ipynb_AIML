@@ -1,16 +1,13 @@
-"use client";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import Link from "next/link";
+import { cookies } from "next/headers";
+import { twMerge } from "tailwind-merge";
+import TripsPanel from "@/components/dashboard/TripsPanel";
 
-import CreateTripForm from "@/components/CreateTripForm";
-import { useAuth } from "@/components/contexts/Auth/AuthContext";
-
-export default () => {
-  const { user } = useAuth();
-
-  if (!user) return null;
-
+export default async () => {
   return (
-    <div className="self-center">
-      <CreateTripForm />
+    <div className="grid p-4">
+      <TripsPanel />
     </div>
   );
 };
