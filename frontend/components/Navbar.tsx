@@ -7,6 +7,8 @@ import { twMerge } from "tailwind-merge";
 import { useAuth } from "./contexts/Auth/AuthContext";
 import Image from "next/image";
 import menuIcon from "@/assets/icons/menu.svg";
+// import logo from "@/assets/images/logo.svg";
+import logo from "@/assets/images/logo_2.png";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -24,19 +26,13 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="grid grid-cols-[1fr_auto] items-center bg-white/10 p-4 px-6 sm:grid-cols-layout-nav">
-      <span className="text-xl font-semibold tracking-tight">Carpool Connect</span>
-      <div className="hidden items-center justify-center gap-6 sm:flex">
-        <Link href="/#" className="text-teal-200 hover:text-white lg:mt-0 lg:inline-block">
-          Home
-        </Link>
-        <Link href="/#about" className="text-teal-200 hover:text-white lg:mt-0 lg:inline-block">
-          About
-        </Link>
-        <Link href="/#contact" className="text-teal-200 hover:text-white lg:mt-0 lg:inline-block">
-          Contact
-        </Link>
-      </div>
+    <nav className="grid-cols-3 grid items-center bg-white/10 p-4 px-6">
+      <Link href="/" className="flex items-center gap-2">
+        <Image src={logo} width={128} height={128} alt="logo" className="h-10 w-10" />
+      </Link>
+
+      <span className="text-center text-xl font-semibold tracking-tight">Carpool Connect</span>
+
       {user ? (
         <Menu className="relative self-center justify-self-end" as="div">
           <Menu.Button className={twMerge(styles.menuButton)}>

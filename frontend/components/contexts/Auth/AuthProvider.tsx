@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (error) throw error;
     setUser(null);
     setSession(null);
+    sessionStorage.removeItem("user");
   };
 
   const signUp = async (email: string, password: string, data: { first_name: string; last_name: string; phone: string }) => {
@@ -76,6 +77,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const deleteTrip = async (id: string) => {
+    console.log("DELEETE", id);
+
+    const { error } = await supabase.from("routes").delete().match({ id });
+    if (error) toast.error(error.message);
+    else toast.success("Trip Deleted");
+  };
+
+  const getTrips = async () => {
+    const { data, error } = await supabase
+      .from("routes")
+      .select("*")
+      .match({ user_id: user?.id });
+    if (error) toast.error(error.message);
+    else return data;
+  };
+
   useEffect(() => {
     const user = sessionStorage.getItem("user");
     if (user) {
@@ -84,7 +102,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  const value = { user, session, login, logout, signUp, updateProfile, publishTrip };
+  const value = { user, session, login, logout, signUp, updateProfile, publishTrip, deleteTrip, getTrips };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
