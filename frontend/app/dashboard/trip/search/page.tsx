@@ -14,12 +14,21 @@ const SearchPage = () => {
 
   useEffect(() => {}, []);
 
+  console.log(JSON.parse(geojson_data));
+
   return (
     <div>
       <MapContainer center={[40.8054, -74.0241]} zoom={14} scrollWheelZoom={false} style={{ height: "100%", width: "100%" }}>
-        <Marker position={[40.8054, -74.0241]} draggable={true}>
-          <Popup>Hey ! you found me</Popup>
-        </Marker>
+        {JSON.parse(geojson_data).children.map((feature: any) => {
+          return (
+            <Marker position={[feature.geometry.coordinates[1], feature.geometry.coordinates[0]]}>
+              <Popup>
+                <h2>{feature.properties.name}</h2>
+                <p>{feature.properties.description}</p>
+              </Popup>
+            </Marker>
+          );
+        })}
       </MapContainer>
     </div>
   );
