@@ -4,7 +4,6 @@ import numpy as np
 from backend.users.utils import get_location_info, add_line, add_marker
 from backend import supabase
 import openrouteservice as ors
-import requests
 import folium
 
 
@@ -136,3 +135,26 @@ def search():
                    message=f"Minsrc- {min_src_cord}", color="black", m=m)
 
     return jsonify(m.to_json(), vids), 200
+
+
+@app.route('/trip_map', method=['GET', 'POST'])
+def trip_map():
+    client = ors.Client(key='5b3ce3597851110001cf62480f73447f67a2444fa6cc065b11091e9f')
+
+    data = request.get_json()
+    src = data.get('source')
+    des = data.get('destination')
+
+    trip_cords = [[src['lng'], src['lat']], [des['lng'], des['lat']]]
+
+    m = folium.Map(location=list(reversed(trip_cords[0])), tiles="cartodbpositron", zoom_start=13)
+    trip_route = client.directions(coordinates=trip_cords,
+                          profile='foot-walking',
+                          format='geojson')
+
+    # add user line and markers
+    add_line(path=trip_route, m=m)
+    add_marker(cords=trip_cords[0], message=f'User-start {trip_cords[0]}', color="green", m=m)
+    add_marker(cords=trip_cords[1], message=f'User-end {trip_cords[1]}', color="red",m=m)
+
+    return m.to_json(), 200
