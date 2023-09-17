@@ -43,7 +43,7 @@ export default ({ params }: { params: { id: number } }) => {
               {user?.user_metadata.color} {user?.user_metadata.car.Make} {user?.user_metadata.car.Model}
             </p>
           </div>
-          <div>
+          <div className="pr-16">
             <MapContainer center={[19.11305, 72.85451]} zoom={14} scrollWheelZoom={false} style={{ height: "100%", width: "100%" }}>
               <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/dark_nolabels/{z}/{x}/{y}.png" />
               <GeoJSON data={data} />

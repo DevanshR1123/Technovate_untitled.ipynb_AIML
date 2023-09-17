@@ -217,13 +217,19 @@ def trip_map():
     trip_route = client.directions(coordinates=trip_cords,
                                    profile='foot-walking',
                                    format='geojson')
+    # Create GeoJSON features for markers, polyline, and route
+    geojson_data = {
+        "type": "FeatureCollection",
+        "features": [
+            create_point_feature(source['lat'], source['lng'],
+                                 "green", f'User-start {trip_cords[0]}'),
+            create_point_feature(destination['lat'], destination['lng'],
+                                 "red", f'User-end {trip_cords[1]}'),
+            # Add the route as a GeoJSON LineString
+            create_line_feature(
+                trip_route['features'][0]['geometry']['coordinates'], "blue")
+        ]
+    }
 
-    # add user line and markers
-    add_line(path=trip_route, m=m)
-    add_marker(
-        cords=trip_cords[0], message=f'User-start {trip_cords[0]}', color="green", m=m)
-    add_marker(
-        cords=trip_cords[1], message=f'User-end {trip_cords[1]}', color="red", m=m)
-
-    m.save("/home/rachit/technovate/Technovate_untitled.ipynb_AIML/backend/templates/map.html")
-    return render_template('map.html')
+    # Return the GeoJSON data in the response
+    return jsonify(geojson_data), 200
