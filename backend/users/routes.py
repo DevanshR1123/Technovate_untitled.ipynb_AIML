@@ -1,7 +1,7 @@
 from flask import request, jsonify, render_template  # Import jsonify for returning JSON responses
 from backend import app
 import numpy as np
-from backend.users.utils import get_location_info, add_line, add_marker
+from backend.users.utils import get_location_info, add_line, add_marker, add_line_to_feature_collection, add_marker_to_feature_collection
 from backend import supabase
 import openrouteservice as ors
 import folium
@@ -51,6 +51,11 @@ def search():
     src = data.get('source')
     des = data.get('destination')
 
+    feature_collection = {
+    "type": "FeatureCollection",
+    "features": []
+    }
+
     src_info = get_location_info(src['name'])
     des_info = get_location_info(des['name'])
 
@@ -72,6 +77,10 @@ def search():
         cords=user_cords[0], message=f'User-start {user_cords[0]}', color="orange", m=m)
     add_marker(
         cords=user_cords[1], message=f'User-end {user_cords[1]}', color="purple", m=m)
+    
+    add_line_to_feature_collection(user_route, feature_collection)
+    add_marker_to_feature_collection(user_cords[0], f'User-start {user_cords[0]}', "orange", feature_collection)
+    add_marker_to_feature_collection(user_cords[1], f'User-end {user_cords[1]}', "purple", feature_collection)
 
     res = supabase.table('routes').select("*").execute()
     print(res)
@@ -96,6 +105,10 @@ def search():
             cords=coords[0], message=f'Route-start {coords[0]}', color="green", m=m)
         add_marker(
             cords=coords[1], message=f'Route-end {coords[1]}', color="red", m=m)
+        
+        add_line_to_feature_collection(route, feature_collection)
+        add_marker_to_feature_collection(coords[0], f'User-start {coords[0]}', "orange", feature_collection)
+        add_marker_to_feature_collection(coords[1], f'User-end {coords[1]}', "purple", feature_collection)
 
         # src_route_start = client.directions(coordinates=[user_cords[0], route_steps[0]],
         #                           profile='foot-walking',
@@ -132,8 +145,11 @@ def search():
         # print(desd)
         add_marker(cords=min_src_cord,
                    message=f"Minsrc- {min_src_cord}", color="black", m=m)
+        
+        add_marker_to_feature_collection(min_src_cord,message=f"Minsrc- {min_src_cord}",color="black", feature_collection=feature_collection)
 
-    return jsonify(m.to_json(), vids), 200
+    return jsonify(feature_collection)
+    # return jsonify(m.to_json(), vids), 200
 
 
 @app.route('/trip_map', methods=['GET', 'POST'])

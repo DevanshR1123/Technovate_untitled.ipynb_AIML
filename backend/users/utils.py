@@ -37,3 +37,30 @@ def add_marker(cords, message, color, m):
 def add_line(path, m, color="blue"):
     folium.PolyLine(locations=[list(reversed(coord)) for coord in path['features'][0]['geometry']['coordinates']], color=color).add_to(m)
     return
+
+def add_marker_to_feature_collection(cords, message, color, feature_collection):
+    feature = {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [cords[1], cords[0]]  # Note the order reversal here
+        },
+        "properties": {
+            "popup": message,
+            "icon": folium.Icon(color=color).to_dict()
+        }
+    }
+    feature_collection["features"].append(feature)
+
+def add_line_to_feature_collection(path, feature_collection, color="blue"):
+    feature = {
+        "type": "Feature",
+        "geometry": {
+            "type": "LineString",
+            "coordinates": [[coord[1], coord[0]] for coord in path['features'][0]['geometry']['coordinates']]  # Order reversal
+        },
+        "properties": {
+            "color": color
+        }
+    }
+    feature_collection["features"].append(feature)
