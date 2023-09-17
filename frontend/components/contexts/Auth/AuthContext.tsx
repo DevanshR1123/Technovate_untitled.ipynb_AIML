@@ -19,6 +19,8 @@ interface AuthContextType {
   publishTrip: (data: {}) => Promise<any>;
   deleteTrip: (id: string) => Promise<any>;
   getTrips: () => Promise<any>;
+  searchTrip: (data: {}) => Promise<any>;
+  searchResults: any[];
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -29,6 +31,8 @@ export const AuthContext = createContext<AuthContextType>({
   publishTrip: (data: {}) => new Promise((resolve, reject) => {}),
   deleteTrip: (id: string) => new Promise((resolve, reject) => {}),
   getTrips: () => new Promise((resolve, reject) => {}),
+  searchTrip: (data: {}) => new Promise((resolve, reject) => {}),
+  searchResults: [],
 });
 
 export const useAuth = () => useContext(AuthContext);

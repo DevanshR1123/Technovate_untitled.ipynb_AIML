@@ -26,22 +26,28 @@ export default () => {
 
   return (
     <div className="rounded-lg bg-neutral-700 p-4">
-      <h1 className="mb-6 text-center text-4xl font-bold">Your Trips</h1>
-      <div className="grid gap-4">
+      <div className="grid-cols-2 grid items-center">
+        <h1 className="mb-6 text-4xl font-bold">Your Trips</h1>
+        <Link href="/dashboard/trip/create" className="w-fit justify-self-end rounded bg-green-700 px-4 py-2">
+          Create Trip
+        </Link>
+      </div>
+
+      <div className="md:grid-cols-2 grid gap-4">
         {trips?.map((trip) => (
           <div className="grid gap-6 rounded-lg border border-neutral-200 p-4" key={trip.id}>
             <div className="md:grid-cols-3 sm:grid-cols-2 grid gap-4 gap-y-2 text-sm">
               <div className="sm:grid-cols-1 grid-cols-2 grid gap-2">
                 <h2 className="w-fit text-sm font-bold">From:</h2>
-                <p className="text-right text-[0.75rem]">{trip.source.name}</p>
+                <p className="text-right text-[0.75rem] sm:text-left">{trip.source.name}</p>
               </div>
               <div className="sm:grid-cols-1 grid-cols-2 grid gap-2">
                 <h2 className="w-fit text-sm font-bold">To:</h2>
-                <p className="text-right text-[0.75rem]">{trip.destination.name}</p>
+                <p className="text-right text-[0.75rem] sm:text-left">{trip.destination.name}</p>
               </div>
               <div className="sm:grid-cols-1 grid-cols-2 grid gap-2">
                 <h2 className="w-fit text-sm font-bold">Date & Time:</h2>
-                <p className="text-right text-[0.75rem]">
+                <p className="text-right text-[0.75rem] sm:text-left">
                   {trip.date} {trip.time}
                 </p>
               </div>

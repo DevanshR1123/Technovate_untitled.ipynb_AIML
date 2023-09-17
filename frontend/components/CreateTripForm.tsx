@@ -6,7 +6,7 @@ import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 const CreateTripForm = () => {
-  const { user, publishTrip } = useAuth();
+  const { user, publishTrip, searchTrip } = useAuth();
   const [tripData, setTripData] = useState({
     source: "",
     destination: "",
@@ -25,7 +25,6 @@ const CreateTripForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(tripData);
     const {
       data: {
         results: [
@@ -81,7 +80,7 @@ const CreateTripForm = () => {
         date: tripData["date"],
         time: tripData["time"],
       };
-      console.log(trip);
+      searchTrip(trip);
     }
   };
 
