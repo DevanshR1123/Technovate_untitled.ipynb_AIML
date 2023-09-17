@@ -24,7 +24,7 @@ def get_location_info(loc, key='CtAFAb6HhxbTJn5LIDknMagdoJpDMWye'):
     except:
         lat, long = None, None
 
-    return [lat, long]
+    return [long, lat]
 
 def add_marker(cords, message, color, m):
     folium.Marker(
