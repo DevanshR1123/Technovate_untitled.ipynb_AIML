@@ -137,7 +137,7 @@ def search():
     return jsonify(m.to_json(), vids), 200
 
 
-@app.route('/trip_map', method=['GET', 'POST'])
+@app.route('/trip_map', methods=['GET', 'POST'])
 def trip_map():
     client = ors.Client(key='5b3ce3597851110001cf62480f73447f67a2444fa6cc065b11091e9f')
 
