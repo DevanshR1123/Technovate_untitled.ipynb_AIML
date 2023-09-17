@@ -46,7 +46,7 @@ def search():
     desd = {}
 
     client = ors.Client(
-        key='5b3ce3597851110001cf62480f73447f67a2444fa6cc065b11091e9f')
+        key='5b3ce3597851110001cf62485a84c527d2744fd9b08eb7b6ce3ad467')
 
     data = request.get_json()
     src = data.get('source')
@@ -139,7 +139,7 @@ def search():
 
 @app.route('/trip_map', methods=['GET', 'POST'])
 def trip_map():
-    client = ors.Client(key='5b3ce3597851110001cf62480f73447f67a2444fa6cc065b11091e9f')
+    client = ors.Client(key='5b3ce3597851110001cf62485a84c527d2744fd9b08eb7b6ce3ad467')
 
     data = request.get_json()
     src = data.get('source')
