@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/components/contexts/Auth/AuthContext";
 import { useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
@@ -12,23 +12,13 @@ const SearchPage = () => {
     searchResults: [geojson_data, route_ids],
   } = useAuth();
 
-  useEffect(() => {}, []);
-
-  console.log(JSON.parse(geojson_data));
+  //   useEffect(() => {}, []);
 
   return (
-    <div>
-      <MapContainer center={[40.8054, -74.0241]} zoom={14} scrollWheelZoom={false} style={{ height: "100%", width: "100%" }}>
-        {JSON.parse(geojson_data).children.map((feature: any) => {
-          return (
-            <Marker position={[feature.geometry.coordinates[1], feature.geometry.coordinates[0]]}>
-              <Popup>
-                <h2>{feature.properties.name}</h2>
-                <p>{feature.properties.description}</p>
-              </Popup>
-            </Marker>
-          );
-        })}
+    <div className="h-96 w-96 place-self-center">
+      <MapContainer center={[19.11305, 72.85451]} zoom={14} scrollWheelZoom={false} style={{ height: "80%", width: "80%" }}>
+        <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/dark_nolabels/{z}/{x}/{y}.png" />
+        <GeoJSON data={geojson_data} />
       </MapContainer>
     </div>
   );

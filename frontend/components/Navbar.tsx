@@ -14,7 +14,7 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const styles = {
     menuButton: `relative z-[1] ease ease-in grid place-items-center px-2 py-3 w-12 rounded-xl text-lg font-bold transition-all delay-0 ui-open:delay-75 active:bg-primary-800 hover:bg-primary-800 ui-open:ease-out`,
-    menuItems: `absolute aspect-square top-0 delay-75 ui-open:delay-0 overflow-hidden rounded-xl bg-primary-800 pb-2 shadow-lg transition transform pt-12`,
+    menuItems: `absolute z-10 aspect-square top-0 delay-75 ui-open:delay-0 overflow-hidden rounded-xl bg-primary-800 pb-2 shadow-lg transition transform pt-12`,
     menuItem: `w-full px-4 py-1 font-bold hover:bg-primary-600 grid text-primary-400 sm:text-base text-sm`,
   };
 
@@ -26,7 +26,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="grid-cols-3 grid items-center bg-white/10 p-4 px-6">
+    <nav className="grid-cols-3 z-10 grid items-center bg-white/10 p-4 px-6">
       <Link href="/" className="flex items-center gap-2">
         <Image src={logo} width={128} height={128} alt="logo" className="h-10 w-10" />
       </Link>
@@ -34,7 +34,7 @@ const Navbar = () => {
       <span className="text-center text-xl font-semibold tracking-tight">Carpool Connect</span>
 
       {user ? (
-        <Menu className="relative self-center justify-self-end" as="div">
+        <Menu className="relative self-center justify-self-end " as="div">
           <Menu.Button className={twMerge(styles.menuButton)}>
             <Image src={menuIcon} alt="menu" width={128} height={128} className="h-6 w-6" priority />
           </Menu.Button>
