@@ -115,7 +115,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     router.push("/dashboard/trip/search");
   };
 
-  const value = { user, session, login, logout, signUp, updateProfile, publishTrip, deleteTrip, getTrips, searchTrip, searchResults };
+  const getTrip = async (id: string) => {
+    const { data: trip, error } = await supabase.from("routes").select("*").match({ id }).single();
+    if (error || !trip) {
+      toast.error(error?.message);
+      return;
+    }
+    console.log(trip);
+
+    // @ts-ignore
+    const { data: geo_json } = await axios.post("http://localhost:5000/trip_map", { source: trip["source"], destination: trip["destination"] });
+
+    return { trip, geo_json };
+  };
+
+  const value = { user, session, login, logout, signUp, updateProfile, publishTrip, deleteTrip, getTrips, searchTrip, searchResults, getTrip };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

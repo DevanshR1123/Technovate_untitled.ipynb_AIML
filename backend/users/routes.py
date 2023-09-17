@@ -1,4 +1,5 @@
-from flask import request, jsonify, render_template  # Import jsonify for returning JSON responses
+# Import jsonify for returning JSON responses
+from flask import request, jsonify, render_template
 from backend import app
 import numpy as np
 from backend.users.utils import get_location_info, add_line, add_marker, add_line_to_feature_collection, add_marker_to_feature_collection
@@ -45,7 +46,8 @@ def search():
     srcd = {}
     desd = {}
 
-    client = ors.Client(key='5b3ce3597851110001cf62485a84c527d2744fd9b08eb7b6ce3ad467')
+    client = ors.Client(
+        key='5b3ce3597851110001cf62485a84c527d2744fd9b08eb7b6ce3ad467')
 
     data = request.get_json()
     src = data.get('source')
@@ -152,29 +154,98 @@ def search():
     # return jsonify(m.to_json(), vids), 200
 
 
+# @app.route('/trip_map', methods=['GET', 'POST'])
+# def trip_map():
+#     client = ors.Client(
+#         key='5b3ce3597851110001cf62480f73447f67a2444fa6cc065b11091e9f')
+
+#     data = request.get_json()
+#     src = data.get('source')
+#     des = data.get('destination')
+
+#     trip_cords = [[src['lng'], src['lat']], [des['lng'], des['lat']]]
+
+#     m = folium.Map(location=list(
+#         reversed(trip_cords[0])), tiles="cartodbpositron", zoom_start=13)
+#     trip_route = client.directions(coordinates=trip_cords,
+#                                    profile='foot-walking',
+#                                    format='geojson')
+
+#     # add user line and markers
+#     add_line(path=trip_route, m=m)
+#     add_marker(
+#         cords=trip_cords[0], message=f'User-start {trip_cords[0]}', color="green", m=m)
+#     add_marker(
+#         cords=trip_cords[1], message=f'User-end {trip_cords[1]}', color="red", m=m)
+
+#     return m.to_json(), 200
+
+
+# Define a function to convert coordinates to GeoJSON Point feature
+def create_point_feature(lat, lon, color, message):
+    feature = {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [lon, lat]
+        },
+        "properties": {
+            "marker-color": color,
+            "marker-symbol": "circle",
+            "marker-size": "medium",
+            "marker-description": message
+        }
+    }
+    return feature
+
+# Define a function to convert a list of coordinates to a GeoJSON LineString feature
+
+
+def create_line_feature(coordinates, color):
+    feature = {
+        "type": "Feature",
+        "geometry": {
+            "type": "LineString",
+            "coordinates": coordinates
+        },
+        "properties": {
+            "stroke": color,
+            "stroke-width": 3
+        }
+    }
+    return feature
+
+
 @app.route('/trip_map', methods=['GET', 'POST'])
 def trip_map():
     client = ors.Client(
-        key='5b3ce3597851110001cf62480f73447f67a2444fa6cc065b11091e9f')
+        key='5b3ce3597851110001cf62485a84c527d2744fd9b08eb7b6ce3ad467')
 
     data = request.get_json()
-    src = data.get('source')
-    des = data.get('destination')
+    source = data.get('source')
+    destination = data.get('destination')
 
-    trip_cords = [[src['lng'], src['lat']], [des['lng'], des['lat']]]
+    trip_cords = [[source['lng'], source['lat']],
+                  [destination['lng'], destination['lat']]]
 
     m = folium.Map(location=list(
         reversed(trip_cords[0])), tiles="cartodbpositron", zoom_start=13)
     trip_route = client.directions(coordinates=trip_cords,
                                    profile='foot-walking',
                                    format='geojson')
+    # Create GeoJSON features for markers, polyline, and route
+    geojson_data = {
+        "type": "FeatureCollection",
+        "features": [
+            create_point_feature(source['lat'], source['lng'],
+                                 "green", f'User-start {trip_cords[0]}'),
+            create_point_feature(destination['lat'], destination['lng'],
+                                 "red", f'User-end {trip_cords[1]}'),
+            # Add the route as a GeoJSON LineString
+            create_line_feature(
+                trip_route['features'][0]['geometry']['coordinates'], "blue")
+        ]
+    }
 
-    # add user line and markers
-    add_line(path=trip_route, m=m)
-    add_marker(
-        cords=trip_cords[0], message=f'User-start {trip_cords[0]}', color="green", m=m)
-    add_marker(
-        cords=trip_cords[1], message=f'User-end {trip_cords[1]}', color="red", m=m)
-
-    m.save("/home/rachit/technovate/Technovate_untitled.ipynb_AIML/backend/templates/map.html")
-    return render_template('map.html')
+    # Return the GeoJSON data in the response
+    return jsonify(geojson_data), 200
