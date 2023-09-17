@@ -1,4 +1,4 @@
-from flask import request, jsonify  # Import jsonify for returning JSON responses
+from flask import request, jsonify, render_template  # Import jsonify for returning JSON responses
 from backend import app
 import numpy as np
 from backend.users.utils import get_location_info, add_line, add_marker
@@ -45,8 +45,7 @@ def search():
     srcd = {}
     desd = {}
 
-    client = ors.Client(
-        key='5b3ce3597851110001cf62485a84c527d2744fd9b08eb7b6ce3ad467')
+    client = ors.Client(key='5b3ce3597851110001cf62485a84c527d2744fd9b08eb7b6ce3ad467')
 
     data = request.get_json()
     src = data.get('source')
@@ -157,4 +156,6 @@ def trip_map():
     add_marker(cords=trip_cords[0], message=f'User-start {trip_cords[0]}', color="green", m=m)
     add_marker(cords=trip_cords[1], message=f'User-end {trip_cords[1]}', color="red",m=m)
 
-    return m.to_json(), 200
+    # return m.to_json(), 200
+    m.save("/home/rachit/technovate/Technovate_untitled.ipynb_AIML/backend/templates/map.html")
+    return render_template('map.html')
