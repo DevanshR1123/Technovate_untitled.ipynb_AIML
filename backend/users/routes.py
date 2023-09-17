@@ -52,8 +52,8 @@ def search():
     src = data.get('source')
     des = data.get('destination')
 
-    src_info = get_location_info(src.name)
-    des_info = get_location_info(des.name)
+    src_info = get_location_info(src['name'])
+    des_info = get_location_info(des['name'])
 
     # src_info = get_location_info(src_loc)
     # des_info = get_location_info(des_loc)
@@ -139,7 +139,8 @@ def search():
 
 @app.route('/trip_map', methods=['GET', 'POST'])
 def trip_map():
-    client = ors.Client(key='5b3ce3597851110001cf62480f73447f67a2444fa6cc065b11091e9f')
+    client = ors.Client(
+        key='5b3ce3597851110001cf62480f73447f67a2444fa6cc065b11091e9f')
 
     data = request.get_json()
     src = data.get('source')
@@ -147,14 +148,17 @@ def trip_map():
 
     trip_cords = [[src['lng'], src['lat']], [des['lng'], des['lat']]]
 
-    m = folium.Map(location=list(reversed(trip_cords[0])), tiles="cartodbpositron", zoom_start=13)
+    m = folium.Map(location=list(
+        reversed(trip_cords[0])), tiles="cartodbpositron", zoom_start=13)
     trip_route = client.directions(coordinates=trip_cords,
-                          profile='foot-walking',
-                          format='geojson')
+                                   profile='foot-walking',
+                                   format='geojson')
 
     # add user line and markers
     add_line(path=trip_route, m=m)
-    add_marker(cords=trip_cords[0], message=f'User-start {trip_cords[0]}', color="green", m=m)
-    add_marker(cords=trip_cords[1], message=f'User-end {trip_cords[1]}', color="red",m=m)
+    add_marker(
+        cords=trip_cords[0], message=f'User-start {trip_cords[0]}', color="green", m=m)
+    add_marker(
+        cords=trip_cords[1], message=f'User-end {trip_cords[1]}', color="red", m=m)
 
     return m.to_json(), 200

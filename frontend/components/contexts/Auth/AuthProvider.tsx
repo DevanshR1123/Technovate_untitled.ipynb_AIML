@@ -105,7 +105,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const searchTrip = async (tripData: any) => {
-    const { data } = await axios.post("http://localhost:5000/search", tripData);
+    const { data } = await axios.post("http://localhost:5000/search", tripData, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
     console.log(data);
     setSearchResults(data);
     router.push("/dashboard/trip/search");
