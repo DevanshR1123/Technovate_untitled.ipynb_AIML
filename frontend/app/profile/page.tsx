@@ -10,7 +10,7 @@ export default () => {
 
   if (user)
     return (
-      <div>
+      <div className="grid">
         {!user.user_metadata.car?.Make && (
           <div className="text-fore-ground bg-gray-800 p-4 font-bold">
             Complete your profile
@@ -19,9 +19,31 @@ export default () => {
             </Link>
           </div>
         )}
-        <h1 className="">
-          {user.user_metadata.first_name} {user.user_metadata.last_name}
-        </h1>
+        <div className="bg-hsl-200 place-self-center rounded-lg bg-neutral-300 p-4">
+          <h1 className="text-2xl font-semibold text-green-700">
+            {user.user_metadata.first_name} {user.user_metadata.last_name}
+          </h1>
+          <div className="mt-4 flex gap-4">
+            <h2 className="text-lg text-neutral-800">{user.user_metadata.phone}</h2>
+            <h2 className="text-lg text-neutral-800">{user.email}</h2>
+          </div>
+          <div className="mt-4 flex gap-4">
+            <h2 className="text-lg font-bold text-neutral-900">Car Details</h2>
+            <h2 className="text-lg text-neutral-800">
+              {user.user_metadata.car?.Make} {user.user_metadata.car?.Model} {user.user_metadata.car?.Year}
+            </h2>
+            <h2 className="text-lg text-neutral-800">{user.user_metadata.color}</h2>
+            <h2 className="text-lg text-neutral-800">{user.user_metadata.plate_no}</h2>
+            <h2 className="text-lg text-neutral-800">({user.user_metadata.car.Seating_Capacity} persons)</h2>
+          </div>
+          <div className="mt-4 flex gap-4">
+            <h2 className="text-lg font-bold text-neutral-900">Preferences</h2>
+            <h2 className="text-lg text-neutral-800">{user.user_metadata.hobby}</h2>
+            <h2 className="text-lg text-neutral-800">{user.user_metadata.personality}</h2>
+            <h2 className="text-lg text-neutral-800">{user.user_metadata.music}</h2>
+            <h2 className="text-lg text-neutral-800">{user.user_metadata.food}</h2>
+          </div>
+        </div>
       </div>
     );
 };
