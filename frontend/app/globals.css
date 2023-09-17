@@ -20,23 +20,16 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-foreground/20;
-  }
+::-webkit-scrollbar {
+  width: 0.3rem;
+  height: 0.3rem;
 }
 
-.animate-in {
-  animation: animateIn 0.3s ease 0.15s both;
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--foreground));
+  border-radius: 0.25rem;
 }
 
-@keyframes animateIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+input:is([type="date"], [type="time"], [type="datetime"])::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }
