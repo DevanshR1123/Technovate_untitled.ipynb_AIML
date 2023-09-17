@@ -73,9 +73,13 @@ def search():
     add_marker(cords=user_cords[1], message=f'User-end {user_cords[1]}', color="purple",m=m)
     
     res,count = supabase.table('routes').select("*").execute()
+    print(res)
     id_cords = {}
     for i in res:
+        print(i)
         id_cords[i.route_id] = [[i.soure['lat'], i.source['lng']], [i.destination['lat'], i.destination['lng']]]
+        break
+
         # coords.append([[i.soure['lat'], i.source['lng']]], [[i.destination['lat'], i.destination['lng']]]])
     
 
