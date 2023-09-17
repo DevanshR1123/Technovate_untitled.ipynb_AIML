@@ -5,11 +5,13 @@ import { AuthContext } from "./AuthContext";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const supabase = createClientComponentClient();
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
 
   const router = useRouter();
 
@@ -102,7 +104,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  const value = { user, session, login, logout, signUp, updateProfile, publishTrip, deleteTrip, getTrips };
+  const searchTrip = async (tripData: any) => {
+    const { data } = await axios.post("http://localhost:5000/search", tripData);
+    console.log(data);
+    setSearchResults(data);
+    router.push("/dashboard/trip/search");
+  };
+
+  const value = { user, session, login, logout, signUp, updateProfile, publishTrip, deleteTrip, getTrips, searchTrip, searchResults };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

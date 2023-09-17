@@ -3,10 +3,13 @@ import { AuthProvider } from "@/components/contexts/Auth/AuthProvider";
 import ToastProvider from "@/components/contexts/Toast/ToastProvider";
 import { Suspense } from "react";
 import "./globals.css";
+import logo from "@/assets/images/logo_2.png";
 
 export const metadata = {
   title: "Carpool Connect",
   description: "Technovate Carpool App",
+  // stylesheets: ["https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"],
+  icons: { icon: logo.src, type: "image/png", sizes: "128x128" },
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

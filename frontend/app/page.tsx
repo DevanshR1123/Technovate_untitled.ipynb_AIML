@@ -9,7 +9,14 @@ export default async function Index() {
     <div className="grid">
       <section className="bg-hsl-200 py-16 text-white">
         <div className="container mx-auto text-center">
-          <h2 className="mb-4 text-4xl font-semibold">Carpool Connect</h2>
+          <h2
+            className="mb-4 text-4xl font-semibold"
+            style={{
+              fontFamily: "Poppins",
+            }}
+          >
+            Carpool Connect
+          </h2>
           <p className="mb-8 text-lg">Empowering Commuters Through Innovative Carpooling</p>
           <Link href="/signup" className="rounded-full bg-green-700 px-4 py-2 font-bold text-white hover:bg-green-800">
             Get Started
