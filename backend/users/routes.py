@@ -49,15 +49,15 @@ def search():
 
     client = ors.Client(key='5b3ce3597851110001cf62480f73447f67a2444fa6cc065b11091e9f')
     
-    data = requests.get_json()
+    data = request.get_json()
     src = data.get('source')
     des = data.get('destination')
     
-    src_loc = get_location_info(src)
-    des_loc = get_location_info(des)
+    src_info = get_location_info(src)
+    des_info = get_location_info(des)
 
-    src_info = get_location_info(src_loc)
-    des_info = get_location_info(des_loc)
+    # src_info = get_location_info(src_loc)
+    # des_info = get_location_info(des_loc)
     user_cords = [src_info, des_info]
 
     m = folium.Map(location=list(reversed(user_cords[0])), tiles="cartodbpositron", zoom_start=13)
