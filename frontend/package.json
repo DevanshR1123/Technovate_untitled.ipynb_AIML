@@ -1,9 +1,11 @@
 {
   "private": true,
+  "proxy" : "http://127.0.0.1:5000",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "proxy": "https://"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
