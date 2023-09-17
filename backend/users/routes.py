@@ -52,8 +52,8 @@ def search():
     src = data.get('source')
     des = data.get('destination')
 
-    src_info = get_location_info(src)
-    des_info = get_location_info(des)
+    src_info = get_location_info(src.name)
+    des_info = get_location_info(des.name)
 
     # src_info = get_location_info(src_loc)
     # des_info = get_location_info(des_loc)
