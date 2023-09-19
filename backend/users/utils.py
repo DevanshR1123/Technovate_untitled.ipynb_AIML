@@ -43,24 +43,49 @@ def add_marker_to_feature_collection(cords, message, color, feature_collection):
         "type": "Feature",
         "geometry": {
             "type": "Point",
-            "coordinates": [cords[1], cords[0]]  # Note the order reversal here
+            "coordinates": [cords[1], cords[0]]
         },
         "properties": {
-            "popup": message,
-            "icon": folium.Icon(color=color).to_dict()
+            "marker-color": color,
+            "marker-symbol": "circle",
+            "marker-size": "medium",
+            "marker-description": message
         }
     }
+    # feature = {
+    #     "type": "Feature",
+    #     "geometry": {
+    #         "type": "Point",
+    #         "coordinates": [cords[1], cords[0]]  # Note the order reversal here
+    #     },
+    #     "properties": {
+    #         "title": message,
+    #         "marker-color":color
+    #     }
+    # }
     feature_collection["features"].append(feature)
 
-def add_line_to_feature_collection(path, feature_collection, color="blue"):
+def add_line_to_feature_collection(path, feature_collection, color="#32f0e3", routeid="user_route"):
     feature = {
         "type": "Feature",
         "geometry": {
             "type": "LineString",
-            "coordinates": [[coord[1], coord[0]] for coord in path['features'][0]['geometry']['coordinates']]  # Order reversal
+            "coordinates": [[coord[1], coord[0]] for coord in path['features'][0]['geometry']['coordinates']]
         },
         "properties": {
-            "color": color
+            "stroke": color,
+            "stroke-width": 3
         }
     }
+    # feature = {
+    #     "type": "Feature",
+    #     "geometry": {
+    #         "type": "LineString",
+    #         "coordinates": [[coord[1], coord[0]] for coord in path['features'][0]['geometry']['coordinates']]  # Order reversal
+    #     },
+    #     "properties": {
+    #         "stroke":color,
+    #         "title":routeid
+    #     }
+    # }
     feature_collection["features"].append(feature)
